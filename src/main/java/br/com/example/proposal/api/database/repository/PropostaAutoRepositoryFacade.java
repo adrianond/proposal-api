@@ -8,7 +8,9 @@ public interface PropostaAutoRepositoryFacade {
     PropostaAuto save(PropostaAuto propostaAuto);
 
     PropostaAuto findById(Long proposta);
-    List<PropostaAuto> findByStatusAndUsuarioAlteracao(Long codigo, Long usuarioAlteracao);
+    List<PropostaAuto> findAllByUsuarioAnaliseCodigo(Long usuario);
     List<PropostaAuto> findAllByUsuario(Long usuario);
+
+    List<PropostaAuto> findAll();
 
 }

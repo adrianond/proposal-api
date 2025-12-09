@@ -1,7 +1,7 @@
 package br.com.example.proposal.api.config.filter;
 
-
 import br.com.example.proposal.api.domain.request.AutenticacaoRequest;
+import br.com.example.proposal.api.exception.UsuarioNaoAutenticadoException;
 import br.com.example.proposal.api.usecase.AutenticarUsuario;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
@@ -18,11 +18,14 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 @AllArgsConstructor
 @Slf4j
 public class AutenticacaoInterceptorFilter extends OncePerRequestFilter {
+
     private final ObjectMapper objectMapper;
     private final AutenticarUsuario autenticarUsuario;
 
@@ -31,31 +34,51 @@ public class AutenticacaoInterceptorFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        try {
+        String header = request.getHeader("autenticacao");
 
-            String autenticacao = request.getHeader("autenticacao");
-
-            if (StringUtils.hasText(autenticacao)) {
-                AutenticacaoRequest autenticacaoRequest = objectMapper.readValue(autenticacao, AutenticacaoRequest.class);
-
-                autenticarUsuario.executar(autenticacaoRequest.getLogin(), autenticacaoRequest.getSenha());
-
-                // Cria um Authentication no contexto do Spring Security
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(
-                                autenticacaoRequest.getLogin(),
-                                autenticacaoRequest.getSenha(),
-                                Collections.emptyList()
-                        );
-
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
-
-        } catch (Exception e) {
-            log.error("Falha ao ler header de autenticação: {}", e.getMessage());
-            SecurityContextHolder.clearContext();
+        if (!StringUtils.hasText(header)) {
+            filterChain.doFilter(request, response);
+            return;
         }
 
-        filterChain.doFilter(request, response);
+        try {
+            AutenticacaoRequest auth = objectMapper.readValue(header, AutenticacaoRequest.class);
+            autenticarUsuario.executar(auth.getLogin(), auth.getSenha());
+            UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(
+                            auth.getLogin(),
+                            auth.getSenha(),
+                            Collections.emptyList()
+                    );
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            filterChain.doFilter(request, response);
+
+        } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
+            log.error("Header de autenticação inválido", e);
+            writeError(response, HttpServletResponse.SC_BAD_REQUEST,
+                    "Header de autenticação está em formato inválido.");
+
+        } catch (UsuarioNaoAutenticadoException e) {
+            log.error("Falha de autenticação: {}", e.getMessage());
+            writeError(response, HttpServletResponse.SC_UNAUTHORIZED,
+                    "Usuário ou senha inválidos.");
+
+        } catch (Exception e) {
+            log.error("Erro inesperado no filtro de autenticação", e);
+            writeError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    "Erro interno ao processar autenticação.");
+        }
+    }
+
+    private void writeError(HttpServletResponse response, int status, String mensagem) throws IOException {
+        response.setStatus(status);
+        response.setContentType("application/json");
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("status", status);
+        body.put("mensagem", mensagem);
+
+        response.getWriter().write(objectMapper.writeValueAsString(body));
     }
 }

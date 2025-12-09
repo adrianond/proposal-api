@@ -1,5 +1,6 @@
 package br.com.example.proposal.api.controller;
 
+import br.com.example.proposal.api.domain.dto.UsuarioDTO;
 import br.com.example.proposal.api.domain.request.LoginRequest;
 import br.com.example.proposal.api.usecase.EfetuarLogin;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +18,8 @@ public class LoginController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Void> efetuarLogin(@RequestBody LoginRequest request) {
-        efetuarLogin.executar(request);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<UsuarioDTO> efetuarLogin(@RequestBody LoginRequest request) {
+        return ResponseEntity.ok( efetuarLogin.executar(request));
     }
 
 }

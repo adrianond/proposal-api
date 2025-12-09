@@ -1,18 +1,21 @@
-package br.com.example.proposal.api.domain.request;
+package br.com.example.proposal.api.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
 
-@AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class ProfissaoRequest {
+@AllArgsConstructor
+@Setter
+@Getter
+@Builder
+public class ProfissaoDTO {
+
+    @JsonProperty("id")
+    private Long id;
 
     @NotEmpty(message = "Profissao é obrigatório")
     @JsonProperty("profession")

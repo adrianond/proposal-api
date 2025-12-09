@@ -8,35 +8,34 @@ import br.com.example.proposal.api.database.enums.PropostaStatus;
 import br.com.example.proposal.api.database.repository.LoginRepositoryFacade;
 import br.com.example.proposal.api.database.repository.PropostaAutoRepositoryFacade;
 import br.com.example.proposal.api.database.repository.StatusPropostaAutoRepositoryFacade;
-import br.com.example.proposal.api.domain.dto.PropostaAutoDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import static br.com.example.proposal.api.builder.PropostaAutoBuilder.toEntity;
+import java.time.LocalDateTime;
 
 @Component
 @AllArgsConstructor
-public class CadastrarProposta {
+public class AnalisarProposta {
     private final PropostaAutoRepositoryFacade propostaAutoRepositoryFacade;
     private final StatusPropostaAutoRepositoryFacade statusPropostaAutoRepositoryFacade;
-    private final ExecutarCallbackListagemPropostas executarCallbackListagemPropostas;
-
     private final LoginRepositoryFacade loginRepositoryFacade;
 
 
     @Transactional
-    public void executar(PropostaAutoDTO propostaAutoDTO) {
-
-        StatusProposta status = statusPropostaAutoRepositoryFacade.findById(PropostaStatus.AGUARDANDO_ANALISE.getCodigo());
-
+    public void executar(Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         LoginUsuario loginUsuario = loginRepositoryFacade.findByUsuarioAndSenha(authentication.getName(), (String) authentication.getCredentials());
+        StatusProposta status = statusPropostaAutoRepositoryFacade.findById(PropostaStatus.EM_ANALISE.getCodigo());
 
-        PropostaAuto proposta = propostaAutoRepositoryFacade.save(toEntity(propostaAutoDTO, loginUsuario.getUsuario(), status, null));
-        executarCallbackListagemPropostas.executar(proposta);
+        PropostaAuto propostaAuto = propostaAutoRepositoryFacade.findById(id);
+        propostaAuto.setUsuarioAnalise(loginUsuario.getUsuario());
+        propostaAuto.setDataAtualizacao(LocalDateTime.now());
+        propostaAuto.setInicioAnalise(LocalDateTime.now());
+        propostaAuto.setStatus(status);
+
+        propostaAutoRepositoryFacade.save(propostaAuto);
     }
 }

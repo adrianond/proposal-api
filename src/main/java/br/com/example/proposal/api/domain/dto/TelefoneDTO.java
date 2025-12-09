@@ -1,16 +1,19 @@
-package br.com.example.proposal.api.domain.request;
+package br.com.example.proposal.api.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
-@AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class TelefoneRequest {
+@AllArgsConstructor
+@Setter
+@Getter
+@Builder
+public class TelefoneDTO {
+
+    @JsonProperty("id")
+    private Long id;
 
     @NotEmpty(message = "DDD é obrigatório")
     @JsonProperty("ddd")
@@ -22,5 +25,5 @@ public class TelefoneRequest {
 
     @NotEmpty(message = "Tipo do telefone é obrigatório")
     @JsonProperty("type")
-    private String tpo;
+    private String tipo;
 }

@@ -26,12 +26,17 @@ public class PropostaAutoRepositoryFacadeImpl implements PropostaAutoRepositoryF
     }
 
     @Override
-    public List<PropostaAuto> findByStatusAndUsuarioAlteracao(Long codigo, Long usuarioAlteracao) {
-        return repository.findByStatusCodigoAndUsuarioAlteracaoCodigo(codigo, usuarioAlteracao);
+    public List<PropostaAuto> findAllByUsuarioAnaliseCodigo(Long usuario) {
+        return repository.findAllByUsuarioAnaliseCodigo(usuario);
     }
 
     @Override
     public List<PropostaAuto> findAllByUsuario(Long usuario) {
         return repository.findAllByUsuarioCadastroCodigo(usuario);
+    }
+
+    @Override
+    public List<PropostaAuto> findAll() {
+        return repository.findAllByUsuarioAnaliseIsNull();
     }
 }

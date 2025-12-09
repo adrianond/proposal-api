@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class ExecutarCallbackListagemPropostas {
     private final SimpMessagingTemplate template;
     public void executar(PropostaAuto proposta) {
-        PropostaAutoDTO propostaAutoDTO = PropostaAutoBuilder.fromEntity(proposta);
+        PropostaAutoDTO propostaAutoDTO = PropostaAutoBuilder.fromEntityResumo(proposta);
 
         template.convertAndSend("/topic/propostas", propostaAutoDTO);
     }

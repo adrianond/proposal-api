@@ -1,16 +1,19 @@
-package br.com.example.proposal.api.domain.request;
+package br.com.example.proposal.api.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
-@AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class EnderecoRequest {
+@AllArgsConstructor
+@Setter
+@Getter
+@Builder
+public class EnderecoDTO {
+
+    @JsonProperty("id")
+    private Long id;
 
     @NotEmpty(message = "Endereço é obrigatório")
     @JsonProperty("address")
@@ -25,7 +28,7 @@ public class EnderecoRequest {
     private String cep;
 
     @NotEmpty(message = "Estado é obrigatório")
-    @JsonProperty("estado")
+    @JsonProperty("state")
     private String estado;
 
     @NotEmpty(message = "Cidade é obrigatório")

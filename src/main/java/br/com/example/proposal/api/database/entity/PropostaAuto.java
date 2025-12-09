@@ -51,6 +51,10 @@ public class PropostaAuto {
     @Column(name = "valor")
     private BigDecimal valor;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_analise", referencedColumnName = "codigo")
+    private Usuario usuarioAnalise;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "CLIENTE_ID", referencedColumnName = "ID")
     private Cliente cliente;

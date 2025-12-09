@@ -2,25 +2,21 @@ package br.com.example.proposal.api.usecase;
 
 
 import br.com.example.proposal.api.builder.PropostaAutoBuilder;
-import br.com.example.proposal.api.database.repository.LoginRepositoryFacade;
+import br.com.example.proposal.api.database.entity.PropostaAuto;
 import br.com.example.proposal.api.database.repository.PropostaAutoRepositoryFacade;
 import br.com.example.proposal.api.domain.dto.PropostaAutoDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 @AllArgsConstructor
-public class ConsultarPropostas {
+public class ConsultarProposta {
     private final PropostaAutoRepositoryFacade facade;
-    private final LoginRepositoryFacade loginRepositoryFacade;
 
-    public List<PropostaAutoDTO> executar() {
+    public PropostaAutoDTO executar(Long id) {
+        PropostaAuto propostaAuto = facade.findById(id);
 
-        return facade.findAll()
-                .stream()
-                .map(PropostaAutoBuilder::fromEntityResumo)
-                .toList();
+        return PropostaAutoBuilder.fromEntity(propostaAuto);
+
     }
 }

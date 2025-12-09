@@ -12,13 +12,12 @@ import java.util.List;
 
 @Component
 @AllArgsConstructor
-public class ConsultarPropostas {
+public class ConsultarPropostasPorUsuario {
     private final PropostaAutoRepositoryFacade facade;
     private final LoginRepositoryFacade loginRepositoryFacade;
 
-    public List<PropostaAutoDTO> executar() {
-
-        return facade.findAll()
+    public List<PropostaAutoDTO> executar(Long codigoUsuaurio) {
+        return facade.findAllByUsuarioAnaliseCodigo(codigoUsuaurio)
                 .stream()
                 .map(PropostaAutoBuilder::fromEntityResumo)
                 .toList();

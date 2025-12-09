@@ -1,19 +1,22 @@
-package br.com.example.proposal.api.domain.request;
+package br.com.example.proposal.api.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
 
-@AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class ClienteRequest {
+@AllArgsConstructor
+@Setter
+@Getter
+@Builder
+public class ClienteDTO {
+
+    @JsonProperty("id")
+    private Long id;
 
     @NotEmpty(message = "Nome é obrigatório")
     @JsonProperty("name")
@@ -43,13 +46,13 @@ public class ClienteRequest {
 
     @NotNull
     @JsonProperty("phone")
-    TelefoneRequest telefoneRequest;
+    TelefoneDTO telefoneDTO;
 
     @NotNull
     @JsonProperty("address")
-    private EnderecoRequest enderecoRequest;
+    private EnderecoDTO enderecoDTO;
 
     @NotNull
     @JsonProperty("profession")
-    private ProfissaoRequest profissaoRequest;
+    private ProfissaoDTO profissaoDTO;
 }

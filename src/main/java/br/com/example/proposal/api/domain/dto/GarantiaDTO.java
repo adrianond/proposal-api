@@ -1,19 +1,21 @@
-package br.com.example.proposal.api.domain.request;
+package br.com.example.proposal.api.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
 
-@AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class GarantiaRequest {
+@AllArgsConstructor
+@Setter
+@Getter
+@Builder
+public class GarantiaDTO {
+
+    @JsonProperty("id")
+    private Long id;
 
     @NotEmpty(message = "Marca é obrigatório")
     @JsonProperty("brand")

@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface PropostaAutoRepository extends JpaRepository<PropostaAuto, Long> {
 
-    List<PropostaAuto> findByStatusCodigoAndUsuarioAlteracaoCodigo(Long codigo, Long usuarioAlteracao);
+    List<PropostaAuto> findAllByUsuarioAnaliseCodigo(Long usuario);
 
     List<PropostaAuto> findAllByUsuarioCadastroCodigo(Long usuario);
+
+    List<PropostaAuto> findAllByUsuarioAnaliseIsNull();
 }

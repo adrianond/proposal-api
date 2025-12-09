@@ -29,7 +29,7 @@ public class SwaggerConfig {
                                         .in(SecurityScheme.In.HEADER)
                                         .description("""
                                                 Envie o JSON de autenticação no header, por exemplo:
-                                                {"loginUsuario": "usuario", "senha": "123456"}
+                                                {"login": "usuario", "senha": "123456"}
                                                 """)));
     }
 }
