@@ -18,8 +18,7 @@ import java.math.BigDecimal;
 public class Profissao {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PROFISSAO")
-    @SequenceGenerator(name = "SEQ_PROFISSAO", sequenceName = "SEQ_PROFISSAO", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 20)

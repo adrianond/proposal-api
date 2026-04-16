@@ -16,8 +16,7 @@ import lombok.NoArgsConstructor;
 public class Endereco {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ENDERECO_CLIENTE")
-    @SequenceGenerator(name = "SEQ_ENDERECO_CLIENTE", sequenceName = "SEQ_ENDERECO_CLIENTE", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 150)

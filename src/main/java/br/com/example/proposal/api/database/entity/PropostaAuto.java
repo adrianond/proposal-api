@@ -16,8 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 public class PropostaAuto {
     @Id
-    @SequenceGenerator(name = "SEQ_PROPOSTA_AUTO", sequenceName = "SEQ_PROPOSTA_AUTO", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PROPOSTA_AUTO")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "proposta")
     private Long proposta;
 

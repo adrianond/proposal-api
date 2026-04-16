@@ -16,8 +16,7 @@ import lombok.NoArgsConstructor;
 public class Telefone {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_TELEFONE_CLIENTE")
-    @SequenceGenerator(name = "SEQ_TELEFONE_CLIENTE", sequenceName = "SEQ_TELEFONE_CLIENTE", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "DDD", nullable = false, length = 20)
