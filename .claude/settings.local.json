@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./mvnw -v 2>&1 | head -10)",
+      "Bash(wc -l /c/projetos/proposal-api/src/main/java/br/com/example/proposal/api/**/*.java 2>/dev/null | tail -1)"
+    ]
+  }
+}

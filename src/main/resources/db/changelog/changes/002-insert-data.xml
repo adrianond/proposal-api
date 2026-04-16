@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="010-insert-usuario" author="migration">
+        <insert tableName="USUARIO">
+            <column name="codigo" valueNumeric="1"/>
+            <column name="nome" value="PEDRO SANTOS"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="011-insert-login-usuario" author="migration">
+        <insert tableName="LOGIN_USUARIO">
+            <column name="usuario" valueNumeric="1"/>
+            <column name="senha" value="123"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="012-insert-status-proposta" author="migration">
+        <insert tableName="STATUS_PROPOSTA">
+            <column name="codigo" valueNumeric="1"/>
+            <column name="descricao" value="Aguardando Analise"/>
+        </insert>
+        <insert tableName="STATUS_PROPOSTA">
+            <column name="codigo" valueNumeric="2"/>
+            <column name="descricao" value="Em Analise"/>
+        </insert>
+        <insert tableName="STATUS_PROPOSTA">
+            <column name="codigo" valueNumeric="3"/>
+            <column name="descricao" value="Aprovada"/>
+        </insert>
+        <insert tableName="STATUS_PROPOSTA">
+            <column name="codigo" valueNumeric="4"/>
+            <column name="descricao" value="Recusada"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
